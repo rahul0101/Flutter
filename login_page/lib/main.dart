@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'list_route.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main() => runApp(MyApp());
 
@@ -10,7 +14,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Login',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.indigo,
       ),
       home: MyHomePage(title: 'Flutter login'),
     );
@@ -41,8 +45,9 @@ class MyHomePage extends StatefulWidget {
       style: style,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.all(15.0),
-        hintText: "Email",
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+        //labelStyle: TextStyle(color: Colors.black,fontSize: 16,),
+        labelText: "Username",
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0),),
       ),
     );
 
@@ -52,13 +57,14 @@ class MyHomePage extends StatefulWidget {
       style: style,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.all(15.0),
-        hintText: "Password",
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+        labelText: "Password",
+        //hintText: "Password",
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
       ),
     );
 
     final loginButton = Material(
-      elevation: 5.0,
+      elevation: 20.0,
       borderRadius: BorderRadius.circular(30.0),
       color: Color(0xff01A0C7),
       child: MaterialButton(
@@ -76,7 +82,10 @@ class MyHomePage extends StatefulWidget {
     );
 
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        title: Center(child: Text("Messages Login")),
+      ),
       body: Center(
         child: Container(
           color: Colors.white,
@@ -87,7 +96,7 @@ class MyHomePage extends StatefulWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  height: 55.0,
+                  height: 155.0,
                   child: Image.asset(
                     "assets/logo.png",
                     fit: BoxFit.contain,
@@ -109,18 +118,54 @@ class MyHomePage extends StatefulWidget {
 
   }
 
-  void _checkLogin() {
-    if(usernameController.text == 'user' && passwordController.text == 'pass')
+  void _checkLogin() async{
+
+    var body = '{"email": "'+usernameController.text+'","password": "'+passwordController.text+'"}';
+    //print(body);
+
+    final listVal = await checkUser(body);
+
+    List<String> name = usernameController.text.split('@');
+
+    int val = listVal;
+    //print(val);
+
+    if(val == 1)
     {
       Fluttertoast.showToast(msg: "Login Successful!");
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ListRoute(name: name[0])),
+      );
     }
-    else if(usernameController.text == 'user' && passwordController.text != 'pass')
+    else if(val == -1)
     {
       Fluttertoast.showToast(msg: "Incorrect Password!");
     }
-    else 
+    else if(val == 0)
     {
       Fluttertoast.showToast(msg: "User does not exist!");
     }
+    else if(usernameController.text == '' || passwordController.text == '')
+    {
+      Fluttertoast.showToast(msg: "Please enter details!");
+    }
+  }
+
+  Future<int> checkUser(String body) async {
+    http.Response resp = await http.post(
+      Uri.encodeFull('http://mobapp.eaiesb.com/mobapp/login'),
+      body: body,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    );
+
+    var data = json.decode(resp.body);
+
+    return data;
   }
 }
+
