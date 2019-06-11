@@ -221,6 +221,7 @@ class _UpdateDeleteState extends State<UpdateDelete> {
     print(body);
     await insert(body);
     Fluttertoast.showToast(msg:'Employee Updated!');
+    Navigator.pop(context);
   }
 
   Future<void> insert(String body) async {
@@ -263,5 +264,6 @@ class _UpdateDeleteState extends State<UpdateDelete> {
     );
 
     Fluttertoast.showToast(msg: "Employee Deleted!");
+    Navigator.pop(context);
   }
 }

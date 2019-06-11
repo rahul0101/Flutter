@@ -5,35 +5,31 @@ import 'dart:convert';
 
 import 'add_emp.dart';
 
-class ListRoute extends StatefulWidget{
-  final String name;
+class ListRoute extends StatefulWidget {
+  //final String name;
 
-  ListRoute({Key key, @required this.name}) : super(key: key);
+  ListRoute({Key key}) : super(key: key);
 
   @override
   _ListState createState() => new _ListState();
 }
 
 class _ListState extends State<ListRoute> {
-
-  List<String> names  = new List<String>();
-  List<String> domains  = new List<String>();
-  List<String> colleges  = new List<String>();
+  List<String> names = new List<String>();
+  List<String> domains = new List<String>();
+  List<String> colleges = new List<String>();
   List<String> emails = new List<String>();
   List<IconData> icons = new List<IconData>();
   //_ListState(){}
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    loadEmps().then((c){
-      setState(() {
-        
-      });
-    }
-    );
+    loadEmps().then((c) {
+      setState(() {});
+    });
     //setState(() {
-      
+
     //});
   }
 
@@ -43,21 +39,21 @@ class _ListState extends State<ListRoute> {
       itemCount: employees.length,
     );
   }
-  
+
+  Future<void> _refreshList() async {
+    print('refreshing list...');
+    med();
+  }
 
   @override
   Widget build(BuildContext context) {
-
     final employees = <Employee>[];
     IconData x;
 
     for (var i = 0; i < names.length; i++) {
-      if(domains[i].toLowerCase() == 'web')
-      {
+      if (domains[i].toLowerCase() == 'web') {
         x = Icons.language;
-      }
-      else
-      {
+      } else {
         x = Icons.phone_android;
       }
       employees.add(Employee(
@@ -70,7 +66,6 @@ class _ListState extends State<ListRoute> {
     }
 
     final listView = Container(
-      
       color: Colors.lightBlue[200],
       padding: EdgeInsets.symmetric(horizontal: 8.0),
       child: _buildCategoryWidgets(employees),
@@ -79,74 +74,70 @@ class _ListState extends State<ListRoute> {
     final appBar = AppBar(
       elevation: 0.0,
       title: Text(
-        'WELCOME '+widget.name.toUpperCase(),
+        'WELCOME ',
         style: TextStyle(
           color: Colors.white,
           fontSize: 24.0,
         ),
       ),
       centerTitle: true,
-      backgroundColor: Colors.orangeAccent,
+      backgroundColor: Colors.indigo[300],
     );
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.indigo[300],
-        elevation: 5.0,
-        onPressed: () {
-          Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => AddEmp()),
-          );
-        },
-        foregroundColor: Colors.white,
-        child: Icon(Icons.add),
-      ),
-      appBar: appBar,
-      body: listView,
-    );
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.indigo[300],
+          elevation: 5.0,
+          onPressed: () {
+            Navigator.of(context)
+                .push(new MaterialPageRoute(builder: (context) => AddEmp()))
+                .whenComplete(med);
+          },
+          foregroundColor: Colors.white,
+          child: Icon(Icons.add),
+        ),
+        appBar: appBar,
+        body: new RefreshIndicator(
+              child: listView,
+              onRefresh: _refreshList,
+        )
+      );
   }
 
-  void med() async{
+  void med() async {
     int p = await loadEmps();
     print(p);
-    //setState(() {
-      
-    //});
+    setState(() {});
   }
 
   Future<int> loadEmps() async {
     http.Response resp = await http.get(
-      Uri.encodeFull('http://mobapp.eaiesb.com/mobapp/viewallemployees'),
-      headers: {
-        'Accept': 'application/json',
-      }
-    );
+        Uri.encodeFull('http://mobapp.eaiesb.com/mobapp/viewallemployees'),
+        headers: {
+          'Accept': 'application/json',
+        });
 
     var data = json.decode(resp.body);
 
-    names  = new List<String>();
-    domains  = new List<String>();
-    colleges  = new List<String>();
+    names = new List<String>();
+    domains = new List<String>();
+    colleges = new List<String>();
     emails = new List<String>();
 
-    int i=0;
-    try{
-    while(data[i]!=null)
-    {
-      names.add(data[i]['firstname']);
-      domains.add(data[i]['domain']);
-      colleges.add(data[i]['college']);
-      emails.add(data[i]['email']);
-      i++;
-    }
-    }
-    on RangeError catch(_){
+    int i = 0;
+    try {
+      while (data[i] != null) {
+        names.add(data[i]['firstname']);
+        domains.add(data[i]['domain']);
+        colleges.add(data[i]['college']);
+        emails.add(data[i]['email']);
+        i++;
+      }
+    } on RangeError catch (_) {
       //setState(() {
       //});
     }
 
     return 999;
   }
-
 }

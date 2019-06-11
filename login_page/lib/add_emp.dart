@@ -150,10 +150,9 @@ class _AddEmpState extends State<AddEmp> {
               OutlineInputBorder(borderRadius: BorderRadius.circular(23.0))),
     );
     final submit = Material(
-      elevation: 10.0,
       borderRadius: BorderRadius.circular(15.0),
-      color: Colors.blueGrey,
-      child: MaterialButton(
+      color: Colors.blue[300],
+      child: FlatButton(
         padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
         onPressed: () {
           addEmp();
@@ -161,7 +160,7 @@ class _AddEmpState extends State<AddEmp> {
         child: Text("Submit",
             textAlign: TextAlign.center,
             style: style.copyWith(
-              color: Colors.white,
+              color: Colors.black,
             )),
       ),
     );
@@ -169,7 +168,7 @@ class _AddEmpState extends State<AddEmp> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text('ADD Employee'),
+        title: const Text('Add Employee'),
       ),
       body: Center(
         child: Container(
@@ -271,9 +270,11 @@ class _AddEmpState extends State<AddEmp> {
         '","password": "' +
         passController.text +
         '"}';
-    print(body);
+    //print(body);
     await insert(body);
     Fluttertoast.showToast(msg: "Employee Added!");
+
+    Navigator.pop(context);
   }
 
   Future<void> insert(String body) async {

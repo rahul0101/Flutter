@@ -64,7 +64,6 @@ class MyHomePage extends StatefulWidget {
     );
 
     final loginButton = Material(
-      elevation: 20.0,
       borderRadius: BorderRadius.circular(30.0),
       color: Color(0xff01A0C7),
       child: MaterialButton(
@@ -84,7 +83,7 @@ class MyHomePage extends StatefulWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Center(child: Text("Messages Login")),
+        title: Center(child: Text("Employee Login")),
       ),
       body: Center(
         child: Container(
@@ -98,11 +97,11 @@ class MyHomePage extends StatefulWidget {
                 SizedBox(
                   height: 155.0,
                   child: Image.asset(
-                    "assets/logo.png",
+                    "assets/eaiesb_logo.png",
                     fit: BoxFit.contain,
                   ),
                 ),
-                SizedBox(height: 45.0,),
+                SizedBox(height: 5.0,),
                 emailField,
                 SizedBox(height: 25.0,),
                 passwordField,
@@ -136,7 +135,7 @@ class MyHomePage extends StatefulWidget {
 
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ListRoute(name: name[0])),
+        MaterialPageRoute(builder: (context) => ListRoute()),
       );
     }
     else if(val == -1)
