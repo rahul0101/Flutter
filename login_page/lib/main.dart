@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -122,11 +124,15 @@ class MyHomePage extends StatefulWidget {
     var body = '{"email": "'+usernameController.text+'","password": "'+passwordController.text+'"}';
     //print(body);
 
-    final listVal = await checkUser(body);
+    var val;
+   try{
+      val = await checkUser(body);
+   }
+   on SocketException catch(_) {
+     Fluttertoast.showToast(msg: "Server Down, Please Try Later");
+     val = 999;
+   }
 
-    List<String> name = usernameController.text.split('@');
-
-    int val = listVal;
     //print(val);
 
     if(val == 1)
