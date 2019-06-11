@@ -9,6 +9,7 @@ class Employee extends StatelessWidget {
   final String domain;
   final String college;
   final String email;
+  final IconData icon;
 
   const Employee({
     Key key,
@@ -16,10 +17,12 @@ class Employee extends StatelessWidget {
     @required this.domain,
     @required this.college,
     @required this.email,
+    @required this.icon,
   })  : assert(name != null),
         assert(domain != null),
         assert(college != null),
         assert(email != null),
+        assert(icon != null),
         super(key: key);
 
   @override
@@ -84,19 +87,19 @@ class Employee extends StatelessWidget {
           decoration: new BoxDecoration(
               border: new Border(
                   right: new BorderSide(width: 1.0, color: Colors.black))),
-          child: Icon(Icons.web, color: Colors.black),
+          child: Icon(icon, color: Colors.black),
         ),
         title: Text(
           name,
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20.0),
         ),
         subtitle: Row(
           children: <Widget>[
             Icon(Icons.linear_scale, color: Colors.yellowAccent),
-            Text(domain, style: TextStyle(color: Colors.black))
+            Text(college, style: TextStyle(color: Colors.black, fontSize: 12.0))
           ],
         ),
         trailing:
-            Icon(Icons.keyboard_arrow_right, color: Colors.black, size: 30.0));
+            Icon(Icons.keyboard_arrow_right, color: Colors.black, size: 36.0));
   }
 }

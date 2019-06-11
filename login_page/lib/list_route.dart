@@ -20,6 +20,7 @@ class _ListState extends State<ListRoute> {
   List<String> domains  = new List<String>();
   List<String> colleges  = new List<String>();
   List<String> emails = new List<String>();
+  List<IconData> icons = new List<IconData>();
   //_ListState(){}
 
   @override
@@ -48,22 +49,29 @@ class _ListState extends State<ListRoute> {
   Widget build(BuildContext context) {
 
     final employees = <Employee>[];
+    IconData x;
 
     for (var i = 0; i < names.length; i++) {
+      if(domains[i].toLowerCase() == 'web')
+      {
+        x = Icons.language;
+      }
+      else
+      {
+        x = Icons.phone_android;
+      }
       employees.add(Employee(
         name: names[i],
         domain: domains[i],
         college: colleges[i],
         email: emails[i],
+        icon: x,
       ));
-      /*print(names[i]);
-      print(domains[i]);
-      print(colleges[i]);
-      print(emails[i]);*/
     }
 
     final listView = Container(
-      color: Colors.lightBlue,
+      
+      color: Colors.lightBlue[200],
       padding: EdgeInsets.symmetric(horizontal: 8.0),
       child: _buildCategoryWidgets(employees),
     );
@@ -71,21 +79,21 @@ class _ListState extends State<ListRoute> {
     final appBar = AppBar(
       elevation: 0.0,
       title: Text(
-        'Welcome '+widget.name,
+        'WELCOME '+widget.name.toUpperCase(),
         style: TextStyle(
-          color: Colors.black,
+          color: Colors.white,
           fontSize: 24.0,
         ),
       ),
       centerTitle: true,
-      backgroundColor: Colors.tealAccent,
+      backgroundColor: Colors.orangeAccent,
     );
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.indigo[300],
         elevation: 5.0,
         onPressed: () {
-          print("addemp");
           Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => AddEmp()),
