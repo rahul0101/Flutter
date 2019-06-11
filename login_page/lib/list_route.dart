@@ -19,6 +19,7 @@ class _ListState extends State<ListRoute> {
   List<String> names  = new List<String>();
   List<String> domains  = new List<String>();
   List<String> colleges  = new List<String>();
+  List<String> emails = new List<String>();
   //_ListState(){}
 
   @override
@@ -53,14 +54,16 @@ class _ListState extends State<ListRoute> {
         name: names[i],
         domain: domains[i],
         college: colleges[i],
+        email: emails[i],
       ));
-      print(names[i]);
+      /*print(names[i]);
       print(domains[i]);
       print(colleges[i]);
+      print(emails[i]);*/
     }
 
     final listView = Container(
-      color: Colors.white,
+      color: Colors.lightBlue,
       padding: EdgeInsets.symmetric(horizontal: 8.0),
       child: _buildCategoryWidgets(employees),
     );
@@ -117,6 +120,7 @@ class _ListState extends State<ListRoute> {
     names  = new List<String>();
     domains  = new List<String>();
     colleges  = new List<String>();
+    emails = new List<String>();
 
     int i=0;
     try{
@@ -125,6 +129,7 @@ class _ListState extends State<ListRoute> {
       names.add(data[i]['firstname']);
       domains.add(data[i]['domain']);
       colleges.add(data[i]['college']);
+      emails.add(data[i]['email']);
       i++;
     }
     }
