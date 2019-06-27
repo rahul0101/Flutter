@@ -35,6 +35,7 @@ class _ListState extends State<ListRoute> {
 
   Widget _buildCategoryWidgets(List<Widget> employees) {
     return ListView.builder(
+      physics: const BouncingScrollPhysics(),
       itemBuilder: (BuildContext context, int index) => employees[index],
       itemCount: employees.length,
     );
@@ -84,24 +85,35 @@ class _ListState extends State<ListRoute> {
       backgroundColor: Colors.indigo[300],
     );
 
-    return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.indigo[300],
-          elevation: 5.0,
-          onPressed: () {
-            Navigator.of(context)
-                .push(new MaterialPageRoute(builder: (context) => AddEmp()))
-                .whenComplete(med);
-          },
-          foregroundColor: Colors.white,
-          child: Icon(Icons.add),
+    /*final xyz = CustomScrollView(
+      slivers: <Widget>[
+        const SliverAppBar(
+          expandedHeight: 150.0,
+          flexibleSpace: const FlexibleSpaceBar(
+            title: Text('Available seats'),
+          ),
         ),
-        appBar: appBar,
-        body: new RefreshIndicator(
-              child: listView,
-              onRefresh: _refreshList,
+      ],
+    );*/
+
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.indigo[300],
+        elevation: 5.0,
+        onPressed: () {
+          Navigator.of(context)
+              .push(new MaterialPageRoute(builder: (context) => AddEmp()))
+              .whenComplete(med);
+        },
+        foregroundColor: Colors.white,
+        child: Icon(Icons.add),
+      ),
+      appBar: appBar,
+      body: new RefreshIndicator(
+          child: listView,
+          onRefresh: _refreshList,
         )
-      );
+    );
   }
 
   void med() async {
@@ -112,7 +124,7 @@ class _ListState extends State<ListRoute> {
 
   Future<int> loadEmps() async {
     http.Response resp = await http.get(
-        Uri.encodeFull('http://mobapp.eaiesb.com/mobapp/viewallemployees'),
+        Uri.encodeFull('https://mobapp.eaiesb.com/mobapp/viewallemployees'),
         headers: {
           'Accept': 'application/json',
         });

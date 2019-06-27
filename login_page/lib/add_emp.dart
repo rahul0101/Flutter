@@ -33,9 +33,9 @@ class _AddEmpState extends State<AddEmp> {
   String dropdownValue = 'Select';
   String dropDownValue = "";
   String dropDownVAlue = "";
-  List _doms = ['CSE                                    ', 'IT'];
+  List _doms = ['Mobile                                 ', 'Web'];
   List _colls = ['BML                                    ', 'MIT'];
-  List _deps = ['Mobile                                 ', 'Web'];
+  List _deps = ['CSE                                    ', 'IT'];
 
   final idController = TextEditingController();
   final fnController = TextEditingController();
@@ -58,9 +58,9 @@ class _AddEmpState extends State<AddEmp> {
     _dropColls = getColls();
     _dropDeps = getDeps();
 
-    _currentDom = _dropDoms[0].value;
-    _currentColl = _dropColls[0].value;
-    _currentDep = _dropDeps[0].value;
+    _currentDom = null;
+    _currentColl = null;
+    _currentDep = null;
   }
 
   List<DropdownMenuItem<String>> getDoms() {
@@ -150,9 +150,10 @@ class _AddEmpState extends State<AddEmp> {
               OutlineInputBorder(borderRadius: BorderRadius.circular(23.0))),
     );
     final submit = Material(
+      elevation: 10.0,
       borderRadius: BorderRadius.circular(15.0),
-      color: Colors.blue[300],
-      child: FlatButton(
+      color: Colors.blueGrey,
+      child: MaterialButton(
         padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
         onPressed: () {
           addEmp();
@@ -160,7 +161,7 @@ class _AddEmpState extends State<AddEmp> {
         child: Text("Submit",
             textAlign: TextAlign.center,
             style: style.copyWith(
-              color: Colors.black,
+              color: Colors.white,
             )),
       ),
     );
@@ -168,7 +169,7 @@ class _AddEmpState extends State<AddEmp> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text('Add Employee'),
+        title: const Text('ADD Employee'),
       ),
       body: Center(
         child: Container(
@@ -201,6 +202,7 @@ class _AddEmpState extends State<AddEmp> {
                   height: 8.0,
                 ),
                 new DropdownButton(
+                  hint: Text('Domain'),
                   value: _currentDom,
                   items: _dropDoms,
                   onChanged: changedDom,
@@ -209,15 +211,16 @@ class _AddEmpState extends State<AddEmp> {
                   height: 8.0,
                 ),
                 new DropdownButton(
+                  hint: Text('College'),
                   value: _currentColl,
                   items: _dropColls,
                   onChanged: changedColl,
-                  hint: Text('College'),
                 ),
                 SizedBox(
                   height: 8.0,
                 ),
                 new DropdownButton(
+                  hint: Text('Department'),
                   value: _currentDep,
                   items: _dropDeps,
                   onChanged: changedDep,
@@ -270,16 +273,15 @@ class _AddEmpState extends State<AddEmp> {
         '","password": "' +
         passController.text +
         '"}';
-    //print(body);
+    print(body);
     await insert(body);
     Fluttertoast.showToast(msg: "Employee Added!");
-
     Navigator.pop(context);
   }
 
   Future<void> insert(String body) async {
     http.Response resp = await http.post(
-        Uri.encodeFull('http://mobapp.eaiesb.com/mobapp/addemployee'),
+        Uri.encodeFull('https://mobapp.eaiesb.com/mobapp/addemployee'),
         body: body,
         headers: {
           'Accept': 'application/json',

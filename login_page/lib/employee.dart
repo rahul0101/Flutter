@@ -79,7 +79,7 @@ class Employee extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => UpdateDelete(email: email))
+            MaterialPageRoute(builder: (context) => UpdateDelete(email: email, icon: icon,))
           );
         },
         contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
@@ -88,7 +88,7 @@ class Employee extends StatelessWidget {
           decoration: new BoxDecoration(
               border: new Border(
                   right: new BorderSide(width: 1.0, color: Colors.black))),
-          child: Icon(icon, color: Colors.black),
+          child: Icon(icon, color: Colors.black)
         ),
         title: Text(
           name,

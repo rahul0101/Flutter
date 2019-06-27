@@ -34,9 +34,16 @@ class MyHomePage extends StatefulWidget {
   
   class _MyHomePageState extends State<MyHomePage>{
     TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+    bool hidePass;
 
     TextEditingController usernameController = new TextEditingController();
     TextEditingController passwordController = new TextEditingController();
+
+    @override
+    void initState() {
+    super.initState();
+    hidePass = true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,15 +60,25 @@ class MyHomePage extends StatefulWidget {
       ),
     );
 
-    final passwordField = TextField(
+    final passwordField = TextFormField(
       controller: passwordController,
-      obscureText: true,
+      obscureText: hidePass,
       style: style,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.all(15.0),
         labelText: "Password",
         //hintText: "Password",
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0),),
+        suffixIcon: IconButton(
+          icon: Icon(
+            hidePass ? Icons.visibility_off : Icons.visibility,
+            color: Theme.of(context).primaryColorDark,
+          ),
+          onPressed: () {setState(() {
+           hidePass = !hidePass; 
+          });
+          }
+        )
       ),
     );
 
@@ -160,7 +177,7 @@ class MyHomePage extends StatefulWidget {
 
   Future<int> checkUser(String body) async {
     http.Response resp = await http.post(
-      Uri.encodeFull('http://mobapp.eaiesb.com/mobapp/login'),
+      Uri.encodeFull('https://mobapp.eaiesb.com/mobapp/login'),
       body: body,
       headers: {
         'Accept': 'application/json',

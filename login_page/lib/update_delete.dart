@@ -4,9 +4,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class UpdateDelete extends StatefulWidget {
-  UpdateDelete({Key key, this.email}) : super(key: key);
+  UpdateDelete({Key key, this.email, this.icon}) : super(key: key);
 
   final String email;
+  final IconData icon;
 
   @override
   _UpdateDeleteState createState() => _UpdateDeleteState();
@@ -132,6 +133,9 @@ class _UpdateDeleteState extends State<UpdateDelete> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                SizedBox(
+                  height: 8.0,
+                ),
                 employeeid,
                 SizedBox(
                   height: 8.0,
@@ -225,7 +229,7 @@ class _UpdateDeleteState extends State<UpdateDelete> {
   }
 
   Future<void> insert(String body) async {
-    String url = 'http://mobapp.eaiesb.com/mobapp/updateemployee/'+emController.text;
+    String url = 'https://mobapp.eaiesb.com/mobapp/updateemployee/'+emController.text;
     http.Response resp = await http.put(
         Uri.encodeFull(url),
         body: body,
@@ -236,7 +240,7 @@ class _UpdateDeleteState extends State<UpdateDelete> {
   }
 
   Future<void> getDetails(String email) async {
-    String url = 'http://mobapp.eaiesb.com/mobapp/viewemployeebyid/' + email;
+    String url = 'https://mobapp.eaiesb.com/mobapp/viewemployeebyid/' + email;
     http.Response resp = await http
         .get(Uri.encodeFull(url), headers: {'Accept': 'application/json'});
 
@@ -255,7 +259,7 @@ class _UpdateDeleteState extends State<UpdateDelete> {
   }
 
   Future<void> deleteEmp() async {
-    String url = 'http://mobapp.eaiesb.com/mobapp/deleteemployee/' + emController.text;
+    String url = 'https://mobapp.eaiesb.com/mobapp/deleteemployee/' + emController.text;
     http.Response resp = await http.delete(
       Uri.encodeFull(url),
       headers: {
